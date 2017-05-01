@@ -1,0 +1,7 @@
+<p>Steps: {{game.steps}} Flags: {{game.flagsUsed}}\{{game.flags}}</p>
+<md-grid-list cols={{game.board.width}}>
+  <md-grid-tile class="cell" [ngClass]="{'flag':cell.flag}" (click)="cellClicked(cell,$event)" *ngFor="let cell of game.board.cellsFlattened">
+
+      <div *ngIf="cell.show">{{cell.proximity}}</div>
+  </md-grid-tile>
+</md-grid-list>

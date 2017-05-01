@@ -1,20 +1,34 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import { MinesweeperMatModule } from './minesweeper-mat/minesweeper-mat.module';
+import { FlexLayoutModule } from '@angular/flex-layout'
+
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './header/header.component';
+import { BoardComponent } from './board/board.component';
+
+
+import { GameService } from './services/game.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    BoardComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    BrowserAnimationsModule,
+    MinesweeperMatModule,
+    FlexLayoutModule
   ],
-  providers: [],
+  providers: [GameService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
