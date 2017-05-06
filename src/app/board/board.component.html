@@ -1,7 +1,33 @@
-<p>Steps: {{game.steps}} Flags: {{game.flagsUsed}}\{{game.flags}}</p>
-<md-grid-list cols={{game.board.width}}>
-  <md-grid-tile class="cell" [ngClass]="{'flag':cell.flag}" (click)="cellClicked(cell,$event)" *ngFor="let cell of game.board.cellsFlattened">
+<md-chip-list class="chips" selectable="false">
 
-      <div *ngIf="cell.show">{{cell.proximity}}</div>
+  <md-chip color="accent" selected="true">Steps: {{game.steps}}</md-chip>
+  <md-chip color="primary" selected="true"> Flags: {{game.flagsUsed}}\{{game.flags}}</md-chip>
+
+</md-chip-list>
+
+
+<!--<div class="Board">
+<md-grid-list  cols={{game.board.width}}>
+  <md-grid-tile class="cell" [ngClass]="{'flag':cell.flag}" (click)="cellClicked(cell,$event)" *ngFor="let cell of game.board.cellsFlattened">
+    <img *ngIf="game.lost && cell.mine" src="../../assets/bomb.png">
+    <div *ngIf="cell.show">{{cell.proximity}}</div>
   </md-grid-tile>
-</md-grid-list>
+</md-grid-list>-->
+
+<!--</div>-->
+
+<div id="BoardContainer">
+  <div [ngStyle]="currentBoardDimensions" class="wrapper">
+    <div 
+    *ngFor="let cell of game.board.cellsFlattened" 
+    [ngStyle]="currentCellDimensions" 
+    (click)="cellClicked(cell,$event)"
+    class="cell">
+    <div *ngIf="cell.show" class="cellContent">{{cell.proximity}}</div>
+    <i *ngIf="cell.flag" class="fa fa-flag" aria-hidden="true"></i>
+    <i *ngIf="cell.mine&&game.lost" class="fa fa-bomb" aria-hidden="true"></i>
+
+    </div>
+
+  </div>
+</div>

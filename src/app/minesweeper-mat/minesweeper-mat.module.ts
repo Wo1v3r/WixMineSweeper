@@ -8,6 +8,7 @@ import {
   MdButtonModule,
   MdInputModule,
   MdGridListModule,
+  MdChipsModule
 
 } from '@angular/material';
 
@@ -18,6 +19,7 @@ import {
     MdButtonModule,
     MdInputModule,
     MdGridListModule,
+    MdChipsModule
 
 
 
@@ -27,6 +29,7 @@ import {
     MdButtonModule,
     MdInputModule,
     MdGridListModule,
+    MdChipsModule
 
 
 

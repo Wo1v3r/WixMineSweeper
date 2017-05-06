@@ -6,8 +6,9 @@ import { Game } from '../shared/game';
 @Injectable()
 export class GameService {
   game:Game;
-  width:number = 5;
-  height:number = 5;
+  width:number = 15;
+  height:number = 15;
+  mines:number = 10;
 
 
   constructor() { 
@@ -15,10 +16,11 @@ export class GameService {
   }
 
   createNewGame():void{
-    this.game = new Game(this.width,this.height);
+    this.game = new Game(this.width,this.height,this.mines);
+    console.log("new game created");
   }
-  resetGame(width:number,height:number):void{
-    this.width = width, this.height=height;
+  resetGame(width:number,height:number,mines:number):void{
+    this.width = width, this.height=height, this.mines = mines;
     this.createNewGame();
   }
   getGame():Game{

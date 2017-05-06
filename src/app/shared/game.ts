@@ -3,6 +3,7 @@ import { Cell } from './cell';
 
 export class Game {
     won: boolean = false;
+    lost: boolean = false;
     superMod: boolean = false;
     flagsUsed: number = 0;
     minesFlagged: number = 0;
@@ -12,10 +13,10 @@ export class Game {
     flags: number;
     mines: number;
 
-    constructor(width: number, height: number) {
+    constructor(width: number, height: number, mines: number) {
         this.board = new Board(width, height);
-        this.mines = Math.floor(height * width * 0.15) | 1;
-        this.flags = Math.floor(height * width * 0.20) | 2;
+        this.mines = mines;
+        this.flags = mines + 1;
         this.addMines();
         this.setProximity();
     }
@@ -24,11 +25,11 @@ export class Game {
         console.log(this.mines);
         for (var i = 0; i < this.mines; i++) {
             do {
-                var randRow: number = Math.floor(Math.random() * this.board.width);
-                var randCol: number = Math.floor(Math.random() * this.board.height);
+                var randRow: number = Math.floor(Math.random() * this.board.height);
+                var randCol: number = Math.floor(Math.random() * this.board.width);
             } while (this.board.cells[randRow][randCol].mine);
             this.board.cells[randRow][randCol].mine = true;
-            this.board.cells[randRow][randCol].proximity = 'X';
+            this.board.cells[randRow][randCol].proximity = '';
 
         }
     }
@@ -47,13 +48,18 @@ export class Game {
     }
 
     toggleFlag(cell: Cell) {
+        if (cell.show) {
+            alert("You can't add a flag to that cell!");
+            return;
+        }
+
         if (cell.flag) {
             cell.flag = false;
             this.flagsUsed--;
             if (cell.mine) this.minesFlagged--;
 
         }
-        else if (this.flagsUsed < this.flags) {
+        else if (!cell.show && this.flagsUsed < this.flags) {
             cell.flag = true;
             this.flagsUsed++;
 
@@ -61,33 +67,38 @@ export class Game {
             if (this.mines == this.minesFlagged) this.won = true;
 
         }
+        else alert("You don't have any flags left :( ");
     }
+
+
+
+
+    // expandZeroProximity(zeroCell:Cell):void {
+    //     ///Iterative attempt;
+
+        
+    // }
     expandZeroProximity(zeroCell: Cell): void {
         //Recursion Guard
 
-        if (zeroCell == undefined || zeroCell.proximity !== 0) return;
-        zeroCell.show = true;
-        var index = this.board.cellsFlattened.indexOf(zeroCell);
-        //Transferring from flattened index to 2D indicies
-        const row = Math.floor(index / this.board.height), column = Math.floor(index % this.board.width);
+        if (zeroCell.show || !zeroCell.flag && zeroCell.proximity !== 0) return;
+        zeroCell.showCell();
+        let row = zeroCell.row , column = zeroCell.column;
 
-        console.log(row, column);
         //Checking along the axises for adjecent zeros , checking proximity to lower stack overhead
         if (row > 0) {
             var cellTop = this.board.cells[row - 1][column];
 
-            if (!cellTop.show && cellTop.proximity === 0)
-                this.expandZeroProximity(cellTop);
+            this.expandZeroProximity(cellTop);
 
-            cellTop.show = true;
+            cellTop.showCell();
 
             if (column > 0) {
                 var cellTopLeft = this.board.cells[row - 1][column - 1];
 
-                if (!cellTopLeft.show && cellTopLeft.proximity === 0)
-                    this.expandZeroProximity(cellTopLeft);
+                this.expandZeroProximity(cellTopLeft);
 
-                cellTopLeft.show = true; //Showing top left
+                cellTopLeft.showCell(); //Showing top left
             }
 
         }
@@ -95,32 +106,28 @@ export class Game {
         if (row < this.board.height - 1) {
             var cellBottom = this.board.cells[row + 1][column];
 
-            if (!cellBottom.show && cellBottom.proximity === 0)
-                this.expandZeroProximity(cellBottom);
+            this.expandZeroProximity(cellBottom);
 
-            cellBottom.show = true;
+            cellBottom.showCell();
 
             if (column < this.board.width - 1) {
                 var cellBottomRight = this.board.cells[row + 1][column + 1];
-                if (!cellBottomRight.show && cellBottomRight.proximity === 0)
-                    this.expandZeroProximity(cellBottomRight);
-                cellBottomRight.show = true; //Showing bottom right
+                this.expandZeroProximity(cellBottomRight);
+                cellBottomRight.showCell();; //Showing bottom right
 
             }
 
         }
         if (column > 0) {
             var cellLeft = this.board.cells[row][column - 1];
-            if (!cellLeft.show && cellLeft.proximity === 0)
-                this.expandZeroProximity(cellLeft);
+            this.expandZeroProximity(cellLeft);
 
-            cellLeft.show = true;
+            cellLeft.showCell();
 
             if (row < this.board.height - 1) {
                 var cellBottomLeft = this.board.cells[row + 1][column - 1];
-                if (!cellBottomLeft.show && cellBottomLeft.proximity === 0)
-                    this.expandZeroProximity(cellBottomLeft);
-                cellBottomLeft.show = true; //Showing bottom left
+                this.expandZeroProximity(cellBottomLeft);
+                cellBottomLeft.showCell();; //Showing bottom left
 
 
             }
@@ -130,17 +137,15 @@ export class Game {
         }
         if (column < this.board.width - 1) {
             var cellRight = this.board.cells[row][column + 1];
-            if (!cellRight.show && cellRight.proximity === 0)
-                this.expandZeroProximity(cellRight);
+            this.expandZeroProximity(cellRight);
 
-            cellRight.show = true;
+            cellRight.showCell();
 
 
             if (row > 0) {
                 var cellTopRight = this.board.cells[row - 1][column + 1];
-                if (!cellTopRight.show && cellTopRight.proximity === 0)
-                    this.expandZeroProximity(cellTopRight);
-                cellTopRight.show = true; //Showing top right
+                this.expandZeroProximity(cellTopRight);
+                cellTopRight.showCell(); //Showing top right
             }
         }
 

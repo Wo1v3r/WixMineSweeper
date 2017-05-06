@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { MinesweeperMatModule } from './minesweeper-mat/minesweeper-mat.module';
-import { FlexLayoutModule } from '@angular/flex-layout'
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -26,7 +25,6 @@ import { GameService } from './services/game.service';
     HttpModule,
     BrowserAnimationsModule,
     MinesweeperMatModule,
-    FlexLayoutModule
   ],
   providers: [GameService],
   bootstrap: [AppComponent]
