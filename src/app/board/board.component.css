@@ -59,7 +59,42 @@ div {
 
 .cell:hover{
     cursor:pointer;
-    background-color: #FFD150;
+    background-color: #FFD000;
+}
+
+.show.c0{
+    background-color: grey;
+}
+.c1{
+    color: green;
+}
+
+.c2{
+    color: yellow;
+}
+
+.c3{
+    color: orange;
+}
+
+.c4{
+    color: red;
+}
+
+.c5{
+    color: maroon;
+}
+
+.c6{
+    color: purple;
+}
+
+.c7{
+    color: grey;
+}
+
+.c8{
+    color: black;
 }
 
 .cellContent{
@@ -78,4 +113,12 @@ div {
 
 .fa-flag{
     color:red;
+}
+
+.empty{
+    background-color: white;
+}
+
+.flag{
+    background-color:red;
 }

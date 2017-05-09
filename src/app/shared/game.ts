@@ -7,45 +7,38 @@ export class Game {
     superMod: boolean = false;
     flagsUsed: number = 0;
     minesFlagged: number = 0;
+    minesLocations: number[][];
     steps: number = 0;
+    width: number;
+    height: number;
 
     board: Board;
     flags: number;
     mines: number;
 
     constructor(width: number, height: number, mines: number) {
-        this.board = new Board(width, height);
+        this.width = width;
+        this.height = height;
         this.mines = mines;
+        this.createMines();
+        this.board = new Board(width, height, this.minesLocations);
         this.flags = mines + 1;
-        this.addMines();
-        this.setProximity();
     }
 
-    addMines(): void {
-        console.log(this.mines);
+    createMines(): void {
+        this.minesLocations = [];
         for (var i = 0; i < this.mines; i++) {
             do {
-                var randRow: number = Math.floor(Math.random() * this.board.height);
-                var randCol: number = Math.floor(Math.random() * this.board.width);
-            } while (this.board.cells[randRow][randCol].mine);
-            this.board.cells[randRow][randCol].mine = true;
-            this.board.cells[randRow][randCol].proximity = '';
+                var randRow: number = Math.floor(Math.random() * this.height);
+                var randCol: number = Math.floor(Math.random() * this.width);
+            } while (this.minesLocations.find(mine => mine[0] == randRow && mine[1] == randCol));
+            this.minesLocations[i] = [];
+            this.minesLocations[i][0] = randRow;
+            this.minesLocations[i][1] = randCol;
 
         }
     }
 
-    setProximity(): void {
-        for (var i = 0; i < this.board.height; i++) {
-            for (var j = 0; j < this.board.width; j++) {
-                let cell = this.board.cells[i][j];
-                if (cell.mine) continue;
-                for (var k = Math.max(i - 1, 0); k < Math.min(this.board.height, i + 2); k++)
-                    for (var w = Math.max(j - 1, 0); w < Math.min(this.board.width, j + 2); w++)
-                        if (this.board.cells[k][w].mine) cell.proximity++;
-
-            }
-        }
-    }
 
     toggleFlag(cell: Cell) {
         if (cell.show) {
@@ -76,76 +69,21 @@ export class Game {
     // expandZeroProximity(zeroCell:Cell):void {
     //     ///Iterative attempt;
 
-        
+
     // }
     expandZeroProximity(zeroCell: Cell): void {
-        //Recursion Guard
 
-        if (zeroCell.show || !zeroCell.flag && zeroCell.proximity !== 0) return;
-        zeroCell.showCell();
-        let row = zeroCell.row , column = zeroCell.column;
+        let zerosQueue: Cell[] = [zeroCell];
 
-        //Checking along the axises for adjecent zeros , checking proximity to lower stack overhead
-        if (row > 0) {
-            var cellTop = this.board.cells[row - 1][column];
+        while (zerosQueue.length !== 0){
+        let currentCell = zerosQueue.pop();
 
-            this.expandZeroProximity(cellTop);
-
-            cellTop.showCell();
-
-            if (column > 0) {
-                var cellTopLeft = this.board.cells[row - 1][column - 1];
-
-                this.expandZeroProximity(cellTopLeft);
-
-                cellTopLeft.showCell(); //Showing top left
-            }
-
-        }
-
-        if (row < this.board.height - 1) {
-            var cellBottom = this.board.cells[row + 1][column];
-
-            this.expandZeroProximity(cellBottom);
-
-            cellBottom.showCell();
-
-            if (column < this.board.width - 1) {
-                var cellBottomRight = this.board.cells[row + 1][column + 1];
-                this.expandZeroProximity(cellBottomRight);
-                cellBottomRight.showCell();; //Showing bottom right
-
-            }
-
-        }
-        if (column > 0) {
-            var cellLeft = this.board.cells[row][column - 1];
-            this.expandZeroProximity(cellLeft);
-
-            cellLeft.showCell();
-
-            if (row < this.board.height - 1) {
-                var cellBottomLeft = this.board.cells[row + 1][column - 1];
-                this.expandZeroProximity(cellBottomLeft);
-                cellBottomLeft.showCell();; //Showing bottom left
-
-
-            }
-
-
-
-        }
-        if (column < this.board.width - 1) {
-            var cellRight = this.board.cells[row][column + 1];
-            this.expandZeroProximity(cellRight);
-
-            cellRight.showCell();
-
-
-            if (row > 0) {
-                var cellTopRight = this.board.cells[row - 1][column + 1];
-                this.expandZeroProximity(cellTopRight);
-                cellTopRight.showCell(); //Showing top right
+        for (var i = Math.max(currentCell.row - 1, 0); i < Math.min(this.height, currentCell.row + 2); i++)
+            for (var j = Math.max(currentCell.column - 1, 0); j < Math.min(this.width, currentCell.column + 2); j++) {
+                let cell = this.board.cells[i][j];
+                if (cell.flag || cell.show) continue;
+                cell.showCell();
+                if (cell.proximity === 0) zerosQueue.push(cell);
             }
         }
 

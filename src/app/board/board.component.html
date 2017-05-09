@@ -22,8 +22,14 @@
     *ngFor="let cell of game.board.cellsFlattened" 
     [ngStyle]="currentCellDimensions" 
     (click)="cellClicked(cell,$event)"
-    class="cell">
-    <div *ngIf="cell.show" class="cellContent">{{cell.proximity}}</div>
+    class="cell"
+    class="c{{cell.proximity}}"
+    [ngClass]="{'flag':cell.flag}"
+    [ngClass]="{'show':cell.show}"
+    >
+    <div     
+    
+ *ngIf="cell.show" class="cellContent">{{cell.proximity}}</div>
     <i *ngIf="cell.flag" class="fa fa-flag" aria-hidden="true"></i>
     <i *ngIf="cell.mine&&game.lost" class="fa fa-bomb" aria-hidden="true"></i>
 

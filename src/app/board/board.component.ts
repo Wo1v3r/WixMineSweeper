@@ -20,7 +20,7 @@ export class BoardComponent implements OnInit {
 
   ngOnInit() {
     this.game = this.gameService.getGame();
-    this.widthRatio = 80 / this.game.board.width;
+    this.widthRatio = 99 / this.game.board.width;
     this.updateBoardDimensions();
     this.updateCellDimensions();
   }
@@ -38,7 +38,8 @@ export class BoardComponent implements OnInit {
     this.currentCellDimensions = {
       'width': this.widthRatio + 'vw',
       'height': this.widthRatio + 'vw',
-      'font-size': this.widthRatio*0.5 + 'vw'
+      'font-size': this.widthRatio * 0.5 + 'vw',
+      'text-color': "black"
     }
   }
 
@@ -64,6 +65,8 @@ export class BoardComponent implements OnInit {
       // this.game = this.gameService.getGame();
       return;
     }
+
+
     if (cell.proximity == 0) {
       this.game.expandZeroProximity(cell);
     }

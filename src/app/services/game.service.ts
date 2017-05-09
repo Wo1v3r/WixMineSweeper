@@ -6,9 +6,9 @@ import { Game } from '../shared/game';
 @Injectable()
 export class GameService {
   game:Game;
-  width:number = 15;
-  height:number = 15;
-  mines:number = 10;
+  width:number = 100;
+  height:number = 100;
+  mines:number = 100;
 
 
   constructor() { 
