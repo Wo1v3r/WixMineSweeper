@@ -1,11 +1,32 @@
 <md-toolbar color="primary">
-  <button color="accent" md-raised-button (click)="newGame()">New Game</button>
+  <button color="accent" md-raised-button (click)="toggleNewGameMenu()">New Game</button>
 
   <span>
       <img src="../../favicon.ico">
 MineSweeper
     </span>
 
-  <button color="accent" md-raised-button>Superman Mode</button>
+  <button color="accent" md-raised-button (click)="toggleSuperMan()">Superman Mode</button>
 
 </md-toolbar>
+
+<div *ngIf="showMenu">
+  <md-input-container hintLabel="Between 1-300">
+    <input id="width" [(ngModel)]="width" name="width" mdInput placeholder="Columns" type="number" required>
+    <md-error>This field is required</md-error>
+
+  </md-input-container>
+
+  <md-input-container hintLabel="Between 1-300">
+    <input id="height" [(ngModel)]="height" name="height" mdInput placeholder="Rows" type="number" required>
+    <md-error>This field is required</md-error>
+
+  </md-input-container>
+
+  <md-input-container>
+    <input id="mines" [(ngModel)]="mines" name="mines" mdInput placeholder="Mines" type="number">
+  </md-input-container>
+
+  <button type="submit" (click)="newGame()" md-raised-button>Start new Game!</button>
+
+</div>

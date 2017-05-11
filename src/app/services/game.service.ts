@@ -17,12 +17,16 @@ export class GameService {
   minesLocations: number[][];
   steps: number = 0;
   board: Board;
+  boardComp: BoardComponent;
   cellsFlattened: Cell[] = [];
 
   constructor() {
   }
 
-  createNewGame(width: number, height: number, mines: number) {
+  createNewGame(width: number, height: number, mines: number, boardComp?: BoardComponent) {
+    if (boardComp != undefined) this.boardComp = boardComp;
+
+    this.lost = this.won = false;
     this.width = width;
     this.height = height;
     this.mines = mines;
@@ -50,6 +54,11 @@ export class GameService {
   }
 
 
+
+  toggleSuperMan(): void {
+    
+    this.boardComp.supermanMode = !this.boardComp.supermanMode;
+  }
 
   toggleFlag(cell: Cell) {
     if (cell.show) {
@@ -93,7 +102,10 @@ export class GameService {
 
   }
   resetGame(width: number, height: number, mines: number): void {
-    this.width = width, this.height = height, this.mines = mines;
+    try {
+      this.boardComp.loadBoard(width, height, mines);
+    }
+    catch (err) { console.log(err) }
   }
 
 

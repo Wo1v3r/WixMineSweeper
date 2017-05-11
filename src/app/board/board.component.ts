@@ -11,15 +11,12 @@ import { GameService } from '../services/game.service';
   styleUrls: ['./board.component.css']
 })
 export class BoardComponent implements OnInit {
-  widthForNextGame: number;
-  heightForNextGame: number;
-  minesForNextGame: number;
   currentBoardDimensions: {};
   currentCellDimensions: {};
   widthRatio: number = 1.5;
   supermanMode: boolean = false;
   cells: Cell[] = [];
-  boardReady: boolean = false;
+  boardReady: boolean;
   promise: any;
   constructor(private gameService: GameService) {
 
@@ -33,8 +30,10 @@ export class BoardComponent implements OnInit {
 
 
   loadBoard(width: number, height: number, mines: number): void {
+    this.boardReady = false;
+    this.supermanMode = false;
     this.promise = new Promise((resolve, reject) => {
-      this.gameService.createNewGame(width, height, mines);
+      this.gameService.createNewGame(width, height, mines, this);
       resolve();
     }).catch((err) => console.log(err));
     this.promise.then(() => {
@@ -82,8 +81,6 @@ export class BoardComponent implements OnInit {
     if (cell.mine) {
       this.gameService.lost = true;
       alert("Game Over");
-      this.gameService.resetGame(this.widthForNextGame, this.heightForNextGame, this.minesForNextGame);
-      // this.game = this.gameService.getGame();
       return;
     }
 
@@ -102,9 +99,6 @@ export class BoardComponent implements OnInit {
   }
 
 
-  superman(): void {
-    this.supermanMode = !this.supermanMode;
-  }
 
   gameOver(): boolean {
     return this.gameService.lost;
