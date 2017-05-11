@@ -28,11 +28,16 @@ export class HeaderComponent implements OnInit {
   newGame(): void {
 
     ///Temporary
-    if (this.width <= 300 && this.height <= 300 && this.mines < this.width*this.height)
+    if (this.width <= 300 && this.height <= 300 && this.mines < this.getMaxMines())
           this.gameService.resetGame(this.width,this.height,this.mines);
   }
 
   toggleSuperMan():void{
     this.gameService.toggleSuperMan();
   }
+
+  getMaxMines():number{
+    return this.width*this.height;
+  }
+
 }

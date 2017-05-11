@@ -1,100 +1,30 @@
-/*md-grid-list{
-    width: 80%;
-    margin:auto;
-    
+#chipsContainer{
+    display:flex;
+    margin-left:2%;
+    flex-direction: space-between ;
+    text-align:center;
 }
 
-.Board{
-    width:60%;
-    margin:auto;
+#chipsContainer * {
+        flex:0 1 auto;
+        
 
 }
 
-.cell{
-    background-color:#FFD180;
-    
-}
+#chipsContainer span{
+        width:70%;
 
-.flag{
-    background-color:red;
 }
-.cell:hover{
-    cursor:pointer;
-    background-color: #FFD150;
-}
-img {
-    width:80%;
-    user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    -moz-user-select: none;
-}
-
-div {
-    user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    -moz-user-select: none;
-}*/
 
 #boardContainer{
     width:80%;
-    margin:auto;
+    overflow: scroll;
 }
+
 .wrapper {
     display: grid;
     justify-items: center;
-
-}
-
-.cell {
-    background-color: #FFD180;
-    color: #fff;
-    border: 1px solid white;
-    display:flex;
-    align-items: center;
-    text-align:center;
-
-}
-
-.cell:hover{
-    cursor:pointer;
-    background-color: #FFD000;
-}
-
-.show.c0{
-    background-color: grey;
-}
-.c1{
-    color: green;
-}
-
-.c2{
-    color: yellow;
-}
-
-.c3{
-    color: orange;
-}
-
-.c4{
-    color: red;
-}
-
-.c5{
-    color: maroon;
-}
-
-.c6{
-    color: purple;
-}
-
-.c7{
-    color: grey;
-}
-
-.c8{
-    color: black;
+    margin-top:50px;
 }
 
 .cellContent{
@@ -102,23 +32,11 @@ div {
     max-width:100%;
     text-align:center;
 }
+
 [class^="icon-"], [class*=" icon-"] {
     display: inline-block;
     width: 100%;
 }
 
-.fa-bomb{
-    color:#303030;
-}
 
-.fa-flag{
-    color:red;
-}
 
-.empty{
-    background-color: white;
-}
-
-.flag{
-    background-color:red;
-}

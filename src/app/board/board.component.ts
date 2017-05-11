@@ -8,7 +8,7 @@ import { GameService } from '../services/game.service';
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
-  styleUrls: ['./board.component.css']
+  styleUrls: ['./board.component.css', './cells.style.css']
 })
 export class BoardComponent implements OnInit {
   currentBoardDimensions: {};
@@ -18,11 +18,26 @@ export class BoardComponent implements OnInit {
   cells: Cell[] = [];
   boardReady: boolean;
   promise: any;
-  constructor(private gameService: GameService) {
+  colorsOn: boolean = true;
+  difficulty: string;
+  constructor(private gameService: GameService) { }
 
-
+  updateBoardDimensions(): void {
+    this.currentBoardDimensions = {
+      'grid-template-columns': 'repeat(' + this.gameService.width + ',' + this.widthRatio + 'vw)',
+      'grid-template-rows': 'repeat(' + this.gameService.height + ',' + this.widthRatio + 'vw)'
+    }
   }
 
+  updateCellDimensions(): void {
+    this.currentCellDimensions = {
+      'width': this.widthRatio + 'vw',
+      'height': this.widthRatio + 'vw',
+      'font-size': this.widthRatio * 0.7 + 'vw',
+      'text-color': "black"
+
+    }
+  }
   ngOnInit() {
     this.loadBoard(50, 50, 50);
   }
@@ -47,25 +62,17 @@ export class BoardComponent implements OnInit {
   }
 
 
-  updateBoardDimensions(): void {
-    this.currentBoardDimensions = {
-      'grid-template-columns': 'repeat(' + this.gameService.width + ',' + this.widthRatio + 'vw)',
-      'grid-template-rows': 'repeat(' + this.gameService.height + ',' + this.widthRatio + 'vw)'
-    }
-  }
 
-  updateCellDimensions(): void {
-    this.currentCellDimensions = {
-      'width': this.widthRatio + 'vw',
-      'height': this.widthRatio + 'vw',
-      'font-size': this.widthRatio * 0.7 + 'vw',
-      'text-color': "black"
-    }
-  }
 
 
   cellClicked(cell: Cell, $event: MouseEvent): void {
-    console.log($event);
+    //If game is over, nothing happens:
+    if (this.gameOver()) {
+      alert("The game is over, Please start a new game :)");
+      return;
+
+    }
+
     //If shift is held, toggling the flag if possible
     if ($event.shiftKey) {
       this.gameService.toggleFlag(cell);
@@ -102,5 +109,19 @@ export class BoardComponent implements OnInit {
 
   gameOver(): boolean {
     return this.gameService.lost;
+  }
+
+
+
+  getUsedFlags(): number {
+    return this.gameService.flagsUsed;
+  }
+
+  getMaxFlags(): number {
+    return this.gameService.flags;
+  }
+
+  getSteps(): number {
+    return this.gameService.steps;
   }
 }

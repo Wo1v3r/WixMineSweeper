@@ -1,22 +1,43 @@
-<md-chip-list class="chips" selectable="false">
+<div id="chipsContainer">
+  <div>
+    <md-chip-list class="mat-chip-list-stacked" selectable="false">
 
-  <md-chip color="accent" selected="true">Steps: 10 TEMP</md-chip>
-  <md-chip color="primary" selected="true"> Flags: 5/6 TEMP</md-chip>
+      <md-chip id="steps" color="accent" selected="true">Steps: {{getSteps()}}</md-chip>
+      <md-chip id="flags" color="accent" selected="true"> Flags: {{getUsedFlags()}}/{{getMaxFlags()}}</md-chip>
 
-</md-chip-list>
+    </md-chip-list>
+  </div>
+
+  <span></span>
+  <div>
+    <h2>Proximity Colors </h2>
+    <md-chip-list class="chips" selectable="false">
+
+      <md-chip id="chip0" color="accent" selected="true">0</md-chip>
+      <md-chip id="chip1" color="accent" selected="true">1</md-chip>
+      <md-chip id="chip2" color="accent" selected="true">2</md-chip>
+      <md-chip id="chip3" color="accent" selected="true"> 3</md-chip>
+      <md-chip id="chip4" color="accent" selected="true">4</md-chip>
+      <md-chip id="chip5" color="accent" selected="true"> 5</md-chip>
+      <md-chip id="chip6" color="accent" selected="true">6</md-chip>
+      <md-chip id="chip7" color="accent" selected="true"> 7</md-chip>
+      <md-chip id="chip8" color="accent" selected="true"> 8</md-chip>
 
 
+    </md-chip-list>
+  </div>
+</div>
 
 <div *ngIf="boardReady" id="BoardContainer">
   <div [ngStyle]="currentBoardDimensions" class="wrapper">
 
-    <div *ngFor="let cell of cells" [ngStyle]="currentCellDimensions" (click)="cellClicked(cell,$event)" class="cell" class="c{{cell.proximity}}"
-      [ngClass]="{'flag':cell.flag}" [ngClass]="{'show':cell.show}">
+    <div *ngFor="let cell of cells" [ngStyle]="currentCellDimensions" (click)="cellClicked(cell,$event)" class="cell" class="c{{cell.proximity}}{{difficulty}}"
+      [ngClass]="{'flag':cell.flag}" [ngClass]="{'mine':cell.mine}">
 
-      <div *ngIf="!cell.mine && !cell.flag &&  supermanMode || cell.show" class="cellContent">{{cell.proximity}}</div>
+      <div *ngIf="!cell.mine && !cell.flag &&  supermanMode || cell.show" [ngClass]="{'show':cell.show||supermanMode}" class="cellContent">{{cell.proximity || ""}}</div>
+      <i *ngIf="cell.flag" class="fa fa-flag" aria-hidden="true"></i>
 
-      <i *ngIf="cell.flag" aria-hidden="true"></i>
-      <i *ngIf="cell.mine && supermanMode ||  gameOver()" class="fa fa-bomb" aria-hidden="true"></i>
+      <i *ngIf="!cell.flag && cell.mine && (supermanMode  || gameOver())" class="fa fa-bomb" aria-hidden="true"></i>
 
     </div>
 
