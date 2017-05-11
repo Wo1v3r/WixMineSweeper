@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { GameService } from '../services/game.service';
 
 import { BoardComponent } from './board.component';
+import {
+  MdChipsModule
+} from '@angular/material';
 
 describe('BoardComponent', () => {
   let component: BoardComponent;
@@ -8,7 +12,11 @@ describe('BoardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BoardComponent ]
+      declarations: [ BoardComponent ],
+      imports: [ 
+        MdChipsModule
+      ],
+      providers: [ GameService ]
     })
     .compileComponents();
   }));

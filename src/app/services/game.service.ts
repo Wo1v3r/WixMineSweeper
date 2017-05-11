@@ -5,20 +5,16 @@ import { BoardComponent } from '../board/board.component';
 
 @Injectable()
 export class GameService {
-  width: number;
-  height: number;
   mines: number;
   flags: number;
   won: boolean = false;
   lost: boolean = false;
-  superMod: boolean = false;
   flagsUsed: number = 0;
   minesFlagged: number = 0;
   minesLocations: number[][];
   steps: number = 0;
   board: Board;
   boardComp: BoardComponent;
-  cellsFlattened: Cell[] = [];
 
   constructor() {
   }
@@ -27,24 +23,21 @@ export class GameService {
     if (boardComp != undefined) this.boardComp = boardComp;
 
     this.lost = this.won = false;
-    this.width = width;
-    this.height = height;
     this.mines = mines;
     this.flags = mines + 1;
-    this.createMines();
+    this.createMines(width, height);
     this.board = new Board(width, height, this.minesLocations);
-    this.cellsFlattened = this.board.cellsFlattened;
   }
 
 
 
 
-  createMines(): void {
+  createMines(width: number, height: number): void {
     this.minesLocations = [];
     for (var i = 0; i < this.mines; i++) {
       do {
-        var randRow: number = Math.floor(Math.random() * this.height);
-        var randCol: number = Math.floor(Math.random() * this.width);
+        var randRow: number = Math.floor(Math.random() * height);
+        var randCol: number = Math.floor(Math.random() * width);
       } while (this.minesLocations.find(mine => mine[0] == randRow && mine[1] == randCol));
       this.minesLocations[i] = [];
       this.minesLocations[i][0] = randRow;
@@ -56,57 +49,71 @@ export class GameService {
 
 
   toggleSuperMan(): void {
-    
+
     this.boardComp.supermanMode = !this.boardComp.supermanMode;
   }
 
   toggleFlag(cell: Cell) {
     if (cell.show) {
       alert("You can't add a flag to that cell!");
-      return;
+      return false;
     }
 
     if (cell.flag) {
       cell.flag = false;
       this.flagsUsed--;
       if (cell.mine) this.minesFlagged--;
-
+      return true;
     }
-    else if (!cell.show && this.flagsUsed < this.flags) {
+
+    if (!cell.show && this.flagsUsed < this.flags) {
       cell.flag = true;
       this.flagsUsed++;
 
       if (cell.mine) this.minesFlagged++;
       if (this.mines == this.minesFlagged) this.won = true;
-
+      return true;
     }
-    else alert("You don't have any flags left :( ");
+
+    alert("You don't have any flags left :( ");
+    return false;
   }
 
 
   expandZeroProximity(zeroCell: Cell): void {
 
     let zerosQueue: Cell[] = [zeroCell];
-
+    debugger;
     while (zerosQueue.length !== 0) {
       let currentCell = zerosQueue.pop();
 
-      for (var i = Math.max(currentCell.row - 1, 0); i < Math.min(this.height, currentCell.row + 2); i++)
-        for (var j = Math.max(currentCell.column - 1, 0); j < Math.min(this.width, currentCell.column + 2); j++) {
+      for (var i = Math.max(currentCell.row - 1, 0); i < Math.min(this.board.height, currentCell.row + 2); i++)
+        for (var j = Math.max(currentCell.column - 1, 0); j < Math.min(this.board.width, currentCell.column + 2); j++) {
           let cell = this.board.cells[i][j];
           if (cell.flag || cell.show) continue;
           cell.showCell();
+          console.log(cell.show);
           if (cell.proximity === 0) zerosQueue.push(cell);
         }
     }
 
   }
+
+
+  winGame(): void {
+    this.won = true;
+    alert("You won!");
+  }
+
+  loseGame(): void {
+    this.lost = true;
+    alert("You Lost :(");
+  }
+
   resetGame(width: number, height: number, mines: number): void {
     try {
       this.boardComp.loadBoard(width, height, mines);
     }
     catch (err) { console.log(err) }
   }
-
-
 }

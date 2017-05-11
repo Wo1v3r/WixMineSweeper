@@ -24,8 +24,8 @@ export class BoardComponent implements OnInit {
 
   updateBoardDimensions(): void {
     this.currentBoardDimensions = {
-      'grid-template-columns': 'repeat(' + this.gameService.width + ',' + this.widthRatio + 'vw)',
-      'grid-template-rows': 'repeat(' + this.gameService.height + ',' + this.widthRatio + 'vw)'
+      'grid-template-columns': 'repeat(' + this.gameService.board.width + ',' + this.widthRatio + 'vw)',
+      'grid-template-rows': 'repeat(' + this.gameService.board.height + ',' + this.widthRatio + 'vw)'
     }
   }
 
@@ -52,8 +52,8 @@ export class BoardComponent implements OnInit {
       resolve();
     }).catch((err) => console.log(err));
     this.promise.then(() => {
-      this.cells = this.gameService.cellsFlattened;
-      this.widthRatio = 99 / this.gameService.width;
+      this.cells = this.gameService.board.cellsFlattened;
+      this.widthRatio = 99 / this.gameService.board.width;
       this.updateCellDimensions();
       this.updateBoardDimensions();
       this.boardReady = true;
@@ -61,12 +61,8 @@ export class BoardComponent implements OnInit {
 
   }
 
-
-
-
-
   cellClicked(cell: Cell, $event: MouseEvent): void {
-    //If game is over, nothing happens:
+      //If game is over, nothing happens:
     if (this.gameOver()) {
       alert("The game is over, Please start a new game :)");
       return;
@@ -77,7 +73,7 @@ export class BoardComponent implements OnInit {
     if ($event.shiftKey) {
       this.gameService.toggleFlag(cell);
       //Win can accure only here
-      if (this.gameService.won) this.winGame();
+      if (this.gameService.won) this.gameService.winGame();
       return;
     }
     //Protecting the player if the cell is flagged
@@ -86,26 +82,19 @@ export class BoardComponent implements OnInit {
     this.gameService.steps++;
 
     if (cell.mine) {
-      this.gameService.lost = true;
-      alert("Game Over");
+      this.gameService.loseGame();
       return;
     }
 
 
-    if (cell.proximity == 0) {
+    // if (cell.proximity == 0) {
       this.gameService.expandZeroProximity(cell);
-    }
+    // }
 
-    cell.show = true;
+    // cell.show = true;
 
 
   }
-
-  winGame(): void {
-    console.log("Good Job!");
-  }
-
-
 
   gameOver(): boolean {
     return this.gameService.lost;
