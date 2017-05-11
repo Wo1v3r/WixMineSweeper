@@ -1,76 +1,99 @@
 import { Component, OnInit } from '@angular/core';
-import { Game } from '../shared/game';
 import { Cell } from '../shared/cell';
+import { Board } from '../shared/board';
 
 import { GameService } from '../services/game.service';
+
+
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
-  styleUrls: ['./board.component.css']
+  styleUrls: ['./board.component.css', './cells.style.css']
 })
 export class BoardComponent implements OnInit {
-  game: Game;
-  widthForNextGame: number = 10;
-  heightForNextGame: number = 10;
-  minesForNextGame: number = 5;
   currentBoardDimensions: {};
   currentCellDimensions: {};
-  widthRatio: number;
+  widthRatio: number = 1.5;
   supermanMode: boolean = false;
-
+  cells: Cell[] = [];
+  boardReady: boolean;
+  promise: any;
+  colorsOn: boolean = true;
+  difficulty: string;
   constructor(private gameService: GameService) { }
-
-  ngOnInit() {
-    this.game = this.gameService.getGame();
-    this.widthRatio = 99 / this.game.board.width;
-    this.updateBoardDimensions();
-    this.updateCellDimensions();
-  }
-
 
   updateBoardDimensions(): void {
     this.currentBoardDimensions = {
-      'grid-template-columns': 'repeat(' + this.game.board.width + ',' + this.widthRatio + 'vw)',
-      'grid-template-rows': 'repeat(' + this.game.board.height + ',' + this.widthRatio + 'vw)'
+      'grid-template-columns': 'repeat(' + this.gameService.width + ',' + this.widthRatio + 'vw)',
+      'grid-template-rows': 'repeat(' + this.gameService.height + ',' + this.widthRatio + 'vw)'
     }
-    //+ 80 / this.game.board.width + 
   }
 
   updateCellDimensions(): void {
     this.currentCellDimensions = {
       'width': this.widthRatio + 'vw',
       'height': this.widthRatio + 'vw',
-      'font-size': this.widthRatio * 0.5 + 'vw',
+      'font-size': this.widthRatio * 0.7 + 'vw',
       'text-color': "black"
+
     }
+  }
+  ngOnInit() {
+    this.loadBoard(50, 50, 50);
   }
 
 
+
+  loadBoard(width: number, height: number, mines: number): void {
+    this.boardReady = false;
+    this.supermanMode = false;
+    this.promise = new Promise((resolve, reject) => {
+      this.gameService.createNewGame(width, height, mines, this);
+      resolve();
+    }).catch((err) => console.log(err));
+    this.promise.then(() => {
+      this.cells = this.gameService.cellsFlattened;
+      this.widthRatio = 99 / this.gameService.width;
+      this.updateCellDimensions();
+      this.updateBoardDimensions();
+      this.boardReady = true;
+    });
+
+  }
+
+
+
+
+
   cellClicked(cell: Cell, $event: MouseEvent): void {
-    console.log($event);
+    //If game is over, nothing happens:
+    if (this.gameOver()) {
+      alert("The game is over, Please start a new game :)");
+      return;
+
+    }
+
     //If shift is held, toggling the flag if possible
     if ($event.shiftKey) {
-      this.game.toggleFlag(cell);
+      this.gameService.toggleFlag(cell);
       //Win can accure only here
-      if (this.game.won) this.winGame();
+      if (this.gameService.won) this.winGame();
       return;
     }
     //Protecting the player if the cell is flagged
     if (cell.flag) return;
 
-    this.game.steps++;
+    this.gameService.steps++;
 
     if (cell.mine) {
-      this.game.lost = true;
+      this.gameService.lost = true;
       alert("Game Over");
-      this.gameService.resetGame(this.widthForNextGame, this.heightForNextGame, this.minesForNextGame);
-      // this.game = this.gameService.getGame();
       return;
     }
 
 
     if (cell.proximity == 0) {
-      this.game.expandZeroProximity(cell);
+      this.gameService.expandZeroProximity(cell);
     }
 
     cell.show = true;
@@ -83,7 +106,22 @@ export class BoardComponent implements OnInit {
   }
 
 
-  superman():void{
-    this.supermanMode = ! this.supermanMode;
+
+  gameOver(): boolean {
+    return this.gameService.lost;
+  }
+
+
+
+  getUsedFlags(): number {
+    return this.gameService.flagsUsed;
+  }
+
+  getMaxFlags(): number {
+    return this.gameService.flags;
+  }
+
+  getSteps(): number {
+    return this.gameService.steps;
   }
 }

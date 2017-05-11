@@ -2,8 +2,8 @@ import { Cell } from './cell'
 
 export class Board {
     cells: Cell[][];
-    width: number = 10;
-    height: number = 10;
+    width: number;
+    height: number;
     cellsFlattened: Cell[];
 
     constructor(width: number, height: number, minesLocations: number[][]) {
@@ -23,8 +23,8 @@ export class Board {
 
 
         }
-        this.cellsFlattened = [].concat.apply([], this.cells);
-
+        this.cellsFlattened = [];
+        this.cellsFlattened = this.cellsFlattened.concat.apply([], this.cells);
     }
 
     addMines(minesLocations: number[][]) {
