@@ -7,14 +7,14 @@ import { GameService } from '../services/game.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
+  
   constructor(private gameService : GameService) { }
 
   ngOnInit() {
+    
   }
 
 
   newGame():void{
-    this.gameService.createNewGame();
   }
 }
