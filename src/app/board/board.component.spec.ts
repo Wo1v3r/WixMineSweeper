@@ -43,8 +43,11 @@ describe('BoardComponent', () => {
   it("Should show 'Game Over' if continuing to click when game is over.",
     inject([GameService], (gameService: GameService) => {
       gameService.loseGame();
+      gameService.steps = 5;
       expect(component.cellClicked(new Cell(false, 0, 0)
         , new MouseEvent(''))).toMatch('gameOver');
+      expect(gameService.steps).toEqual(5); //Steps shouldn't change
+
 
     }));
 
@@ -61,15 +64,30 @@ describe('BoardComponent', () => {
 
   it("Should lose game if mine was clicked.",
     inject([GameService], (gameService: GameService) => {
+      gameService.steps = 5;
       expect(component.cellClicked(new Cell(true, 0, 0)
         , new MouseEvent(''))).toMatch('gameLost');
+      expect(gameService.steps).toEqual(6); //Steps should increment
+    }));
+
+  it("Should do nothing if a shown cell was clicked.",
+    inject([GameService], (gameService: GameService) => {
+      let cell = new Cell(true, 0, 0);
+      gameService.steps = 5;
+      cell.show = true;
+      expect(component.cellClicked(cell
+        , new MouseEvent(''))).toMatch('cellShown');
+      expect(gameService.steps).toEqual(5); //Steps shouldn't change
+
     }));
 
   //Expanding is covered in GameService test suite
   it("Should show & expand cells if non mine cell was clicked.",
     inject([GameService], (gameService: GameService) => {
+      gameService.steps = 5;
       expect(component.cellClicked(new Cell(false, 0, 0)
         , new MouseEvent(''))).toMatch('showingAndExpanding');
+      expect(gameService.steps).toEqual(6); //Steps should be incremented
     }));
 
   it("Should return whether game is over (Win or Lose)",

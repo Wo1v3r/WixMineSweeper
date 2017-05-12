@@ -17,9 +17,12 @@ export class BoardComponent implements OnInit {
   supermanMode: boolean = false;
   cells: Cell[] = [];
   boardReady: boolean;
-  promise: any;
+  loadPromise: any;
+  ////
   colorsOn: boolean = true;
   difficulty: string;
+  ///
+  
   constructor(private gameService: GameService) { }
 
   updateBoardDimensions(): void {
@@ -47,11 +50,11 @@ export class BoardComponent implements OnInit {
   loadBoard(width: number, height: number, mines: number): void {
     this.boardReady = false;
     this.supermanMode = false;
-    this.promise = new Promise((resolve, reject) => {
+    this.loadPromise = new Promise((resolve, reject) => {
       this.gameService.createNewGame(width, height, mines, this);
       resolve();
     }).catch((err) => console.log(err));
-    this.promise.then(() => {
+    this.loadPromise.then(() => {
       this.cells = this.gameService.board.cellsFlattened;
       this.widthRatio = 99 / this.gameService.board.width;
       this.updateCellDimensions();
@@ -62,15 +65,16 @@ export class BoardComponent implements OnInit {
   }
 
   //The return values on cellClicked are for Karma Test suite
-  
+
   cellClicked(cell: Cell, $event: MouseEvent): string {
-      //If game is over, nothing happens:
+    //If game is over, nothing happens:
     if (this.gameOver()) {
       alert("The game is over, Please start a new game :)");
-      return 'gameOver' ;
+      return 'gameOver';
 
     }
 
+    if (cell.show) return 'cellShown';
     //If shift is held, toggling the flag if possible
     if ($event.shiftKey) {
       this.gameService.toggleFlag(cell);
@@ -90,8 +94,8 @@ export class BoardComponent implements OnInit {
 
 
     // if (cell.proximity == 0) {
-      this.gameService.expandZeroProximity(cell);
-      return 'showingAndExpanding';
+    this.gameService.expandZeroProximity(cell);
+    return 'showingAndExpanding';
     // }
 
     // cell.show = true;
