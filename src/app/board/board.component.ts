@@ -134,7 +134,6 @@ export class BoardComponent implements OnInit {
 
   updateCellTheme(): void {
     this.cellTheme = this.gameService.difficulty;
-    console.log(this.cellTheme);
   }
   ///
 }

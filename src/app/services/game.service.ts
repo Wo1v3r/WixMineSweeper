@@ -26,7 +26,6 @@ export class GameService {
     if (boardComp != undefined) this.boardComp = boardComp;
 
     this.lost = this.won = false;
-    console.log("won:" + this.won);
     this.mines = mines;
     this.minesFlagged = 0;
     this.steps = 0;
