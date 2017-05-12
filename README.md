@@ -1,28 +1,36 @@
 # Minesweeper
+A MineSweeper game for WIX home assignment:
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0.
+Made with Angular 4 using Angular CLI , Angular Material2 for design components.
+A Working example as of 13.5.2017 on: https://wo1v3r.github.io/WixMineSweeper/
 
-## Development server
-
+Using [ Angular CLI ]:
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+### How to play:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.
+- Upon Loading a 50x50 board will appear with 50 mines on it
+- Left click a cell to reveal it, its' proximity of mines shows as a number\color
+- You can start a new game by pressing the 'New Game' button and enter desired values
+- You can choose a difficulty (Unicorn, Robot , Cowboy ) on the creation menu, this will alter the number of flags you have at your disposal. (And also alter the board's theme!)
+- To restart the game with the latest settings, you can also press the bomb icon on the top of the page
+- If you want to cheat, You can toggle the 'Superman Mode' to reveal the board
+- Have fun and don't explode!
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Testing (Front End only) was done using Karma
+- Tests files are with <Name>.spec.ts suffix 
+- Tests are written for every Angular component, and for the two data-type classes
 
-## Running end-to-end tests
+Using [ Angular CLI ]
+Run `npm install && ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
 
-## Further help
+### Development Notes:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- The high number of cells available counters the gameplay, therefore I used intuitive color palletes in order to make the game playable on wider boards too
+- The game works correctly up to 300x300
+- Superman mode some times crashes the browser after 50,000 cells
+
