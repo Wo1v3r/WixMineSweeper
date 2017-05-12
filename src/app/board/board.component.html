@@ -9,10 +9,10 @@
   </div>
 
   <span></span>
-  <div>
-    <h2>Proximity Colors </h2>
-    <md-chip-list class="chips" selectable="false">
 
+  <div>
+    <h3>Proximity Colors </h3>
+    <md-chip-list class="chips" selectable="false">
       <md-chip id="chip0{{cellTheme}}" color="accent" selected="true">0</md-chip>
       <md-chip id="chip1{{cellTheme}}" color="accent" selected="true">1</md-chip>
       <md-chip id="chip2{{cellTheme}}" color="accent" selected="true">2</md-chip>
@@ -22,22 +22,20 @@
       <md-chip id="chip6{{cellTheme}}" color="accent" selected="true">6</md-chip>
       <md-chip id="chip7{{cellTheme}}" color="accent" selected="true">7</md-chip>
       <md-chip id="chip8{{cellTheme}}" color="accent" selected="true">8</md-chip>
-
-
     </md-chip-list>
   </div>
 </div>
 
+
 <div *ngIf="boardReady" id="BoardContainer">
   <div [ngStyle]="currentBoardDimensions" class="wrapper">
-
     <div *ngFor="let cell of cells" [ngStyle]="currentCellDimensions" (click)="cellClicked(cell,$event)" class="cell" class="c{{cell.proximity}}{{cellTheme}}"
       [ngClass]="{'flag':cell.flag}" [ngClass]="{'mine':cell.mine}">
 
       <div *ngIf="!cell.mine && !cell.flag &&  supermanMode || cell.show" [ngClass]="{'show':cell.show||supermanMode}" class="cellContent">{{cell.proximity || ""}}</div>
-     
-      <img src="../assets/icons/007-maps-and-flags.svg" *ngIf="cell.flag"  aria-hidden="true">
-      <img src="../assets/icons/018-bomb-3.svg" *ngIf="!cell.flag && cell.mine && (supermanMode  || gameOver())"  aria-hidden="true">
+
+      <img src="../assets/icons/007-maps-and-flags.svg" *ngIf="cell.flag" aria-hidden="true">
+      <img src="../assets/icons/018-bomb-3.svg" *ngIf="!cell.flag && cell.mine && (supermanMode  || gameOver())" aria-hidden="true">
 
     </div>
 

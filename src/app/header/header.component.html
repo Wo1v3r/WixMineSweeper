@@ -6,7 +6,7 @@
 MineSweeper
     </span>
 
-  <button color="accent" md-raised-button (click)="toggleSuperMan()">Superman Mode</button>
+  <button color="accent" [ngClass]="{'supermanOn': supermanActive }" md-raised-button (click)="toggleSuperMan()">Superman Mode</button>
 
 </md-toolbar>
 

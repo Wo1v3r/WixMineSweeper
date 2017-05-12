@@ -21,10 +21,99 @@ export class BoardComponent implements OnInit {
   supermanMode: boolean = false;
   cells: Cell[] = [];
   boardReady: boolean;
-  loadPromise: any;
   cellTheme: string;
 
   constructor(private gameService: GameService) { }
+
+  ngOnInit() {
+    this.loadBoard(50, 50, 500);
+  }
+
+  loadBoard(width: number, height: number, mines: number): void {
+    this.boardReady = false;
+    this.supermanMode = false;
+
+    let loadPromise = new Promise((resolve, reject) => {
+      this.gameService.createNewGame(width, height, mines, this);
+      resolve();
+    }).catch((err) => console.log(err));
+
+    loadPromise.then(() => {
+      this.cells = this.gameService.board.cellsFlattened;
+      this.widthRatio = 99 / this.gameService.board.width;
+
+      this.updateCellDimensions();
+      this.updateBoardDimensions();
+      this.updateCellTheme();
+
+      this.boardReady = true;
+    });
+
+  }
+
+  //Interaction //
+
+  //The return values on cellClicked are for Karma Test suite
+
+  cellClicked(cell: Cell, $event: MouseEvent): string {
+
+    if (this.gameOver()) {
+      alert("The game is over, Please start a new game :)");
+      return 'gameOver';
+
+    }
+    if (cell.show) return 'cellShown';
+
+    if ($event.shiftKey) {
+      this.gameService.toggleFlag(cell);
+
+      //Win can occure only here
+      if (this.gameService.won) {
+        this.gameService.winGame();
+        return 'gameWon';
+
+      }
+      return 'flagToggled';
+    }
+
+    //Protecting the player if the cell is flagged
+    if (cell.flag) return 'flagFlagged';
+
+    //From here, a Step was taken
+    this.gameService.steps++;
+
+    if (cell.mine) {
+      this.gameService.loseGame();
+      return 'gameLost';
+    }
+
+    if (cell.proximity === 0) this.gameService.expandZeroProximity(cell);
+    else cell.showCell();
+
+    return 'showingAndExpanding';
+  }
+
+
+  //Service Adapter
+
+  gameOver(): boolean {
+    return this.gameService.lost || this.gameService.won;
+  }
+
+  getUsedFlags(): number {
+    return this.gameService.flagsUsed;
+  }
+
+  getMaxFlags(): number {
+    return this.gameService.flags;
+  }
+
+  getSteps(): number {
+    return this.gameService.steps;
+  }
+
+
+  //Display \ Themeing
 
   updateBoardDimensions(): void {
     this.currentBoardDimensions = {
@@ -47,90 +136,5 @@ export class BoardComponent implements OnInit {
     this.cellTheme = this.gameService.difficulty;
     console.log(this.cellTheme);
   }
-
-  ngOnInit() {
-    this.loadBoard(50, 50, 50);
-  }
-
-
-
-  loadBoard(width: number, height: number, mines: number): void {
-    this.boardReady = false;
-    this.supermanMode = false;
-    this.loadPromise = new Promise((resolve, reject) => {
-      this.gameService.createNewGame(width, height, mines, this);
-      resolve();
-    }).catch((err) => console.log(err));
-    this.loadPromise.then(() => {
-      this.cells = this.gameService.board.cellsFlattened;
-      this.widthRatio = 99 / this.gameService.board.width;
-      this.updateCellDimensions();
-      this.updateBoardDimensions();
-      this.updateCellTheme();
-
-      this.boardReady = true;
-    });
-
-  }
-
-  //The return values on cellClicked are for Karma Test suite
-
-  cellClicked(cell: Cell, $event: MouseEvent): string {
-    //If game is over, nothing happens:
-    if (this.gameOver()) {
-      alert("The game is over, Please start a new game :)");
-      return 'gameOver';
-
-    }
-    if (cell.show) return 'cellShown';
-    //If shift is held, toggling the flag if possible
-    if ($event.shiftKey) {
-      this.gameService.toggleFlag(cell);
-      //Win can occure only here
-      if (this.gameService.won) {
-        this.gameService.winGame();
-        return 'gameWon';
-      }
-      return 'flagToggled';
-    }
-    //Protecting the player if the cell is flagged
-    if (cell.flag) return 'flagFlagged';
-
-    this.gameService.steps++;
-
-    if (cell.mine) {
-      this.gameService.loseGame();
-      return 'gameLost';
-    }
-
-
-    // if (cell.proximity == 0) {
-    if (cell.proximity === 0) this.gameService.expandZeroProximity(cell);
-    else cell.showCell();
-
-    return 'showingAndExpanding';
-    // }
-
-    // cell.show = true;
-
-
-  }
-
-  gameOver(): boolean {
-    return this.gameService.lost || this.gameService.won;
-  }
-
-
-
-  getUsedFlags(): number {
-    return this.gameService.flagsUsed;
-  }
-
-  getMaxFlags(): number {
-    return this.gameService.flags;
-  }
-
-  getSteps(): number {
-    return this.gameService.steps;
-  }
+  ///
 }

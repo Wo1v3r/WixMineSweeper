@@ -142,4 +142,19 @@ describe('GameService', () => {
       service.createNewGame(1, 1, 1);
 
     }))
+
+  it("Should determine difficulty correctly",
+    inject([GameService],(service: GameService) =>{
+        service.difficulty = 'cowboy';
+        expect(service.determineDifficulty()).toEqual(1.01);
+
+        service.difficulty = 'robot';
+        expect(service.determineDifficulty()).toEqual(1.05);
+
+        service.difficulty = 'unicorn';
+        expect(service.determineDifficulty()).toEqual(1.1);
+
+        service.difficulty = 'BAD VALUE';
+        expect(service.determineDifficulty()).toEqual(1);
+    }));
 });

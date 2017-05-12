@@ -120,4 +120,10 @@ describe('HeaderComponent', () => {
   }));
 
 
+  it('Should get/set difficulty correctly on the service'
+  ,inject([GameService], (gameService:GameService)=>{
+    component.setDifficulty('unicorn');
+    expect(component.getDifficulty()).toMatch('unicorn');
+  }));
+
 });
