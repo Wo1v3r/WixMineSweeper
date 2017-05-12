@@ -15,6 +15,9 @@ export class GameService {
   steps: number = 0;
   board: Board;
   boardComp: BoardComponent;
+  ////
+  difficulty: string = "robot";
+  ///
 
   constructor() {
   }
@@ -23,8 +26,12 @@ export class GameService {
     if (boardComp != undefined) this.boardComp = boardComp;
 
     this.lost = this.won = false;
+    console.log("won:" + this.won);
     this.mines = mines;
-    this.flags = mines + 1;
+    this.minesFlagged = 0;
+    this.steps = 0;
+    this.flagsUsed = 0;
+    this.flags = Math.round(mines*this.determineDifficulty());
     this.createMines(width, height);
     this.board = new Board(width, height, this.minesLocations);
   }
@@ -83,7 +90,6 @@ export class GameService {
   expandZeroProximity(zeroCell: Cell): void {
 
     let zerosQueue: Cell[] = [zeroCell];
-    debugger;
     while (zerosQueue.length !== 0) {
       let currentCell = zerosQueue.pop();
 
@@ -92,7 +98,6 @@ export class GameService {
           let cell = this.board.cells[i][j];
           if (cell.flag || cell.show) continue;
           cell.showCell();
-          console.log(cell.show);
           if (cell.proximity === 0) zerosQueue.push(cell);
         }
     }
@@ -115,5 +120,18 @@ export class GameService {
       this.boardComp.loadBoard(width, height, mines);
     }
     catch (err) { console.log(err) }
+  }
+
+  determineDifficulty() {
+    switch (this.difficulty) {
+      case 'cowboy':
+        return 1.01;
+      case 'robot':
+        return 1.05;
+      case 'unicorn':
+        return 1.1;
+      default:
+        return 1;
+    }
   }
 }

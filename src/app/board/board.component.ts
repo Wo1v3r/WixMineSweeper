@@ -8,7 +8,11 @@ import { GameService } from '../services/game.service';
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
-  styleUrls: ['./board.component.css', './cells.style.css']
+  styleUrls: [
+    './board.component.css',
+    './cells.styles/cells.style.cowboy.css',
+    './cells.styles/cells.style.unicorn.css',
+    './cells.styles/cells.style.robot.css']
 })
 export class BoardComponent implements OnInit {
   currentBoardDimensions: {};
@@ -18,11 +22,8 @@ export class BoardComponent implements OnInit {
   cells: Cell[] = [];
   boardReady: boolean;
   loadPromise: any;
-  ////
-  colorsOn: boolean = true;
-  difficulty: string;
-  ///
-  
+  cellTheme: string;
+
   constructor(private gameService: GameService) { }
 
   updateBoardDimensions(): void {
@@ -41,6 +42,12 @@ export class BoardComponent implements OnInit {
 
     }
   }
+
+  updateCellTheme(): void {
+    this.cellTheme = this.gameService.difficulty;
+    console.log(this.cellTheme);
+  }
+
   ngOnInit() {
     this.loadBoard(50, 50, 50);
   }
@@ -59,6 +66,8 @@ export class BoardComponent implements OnInit {
       this.widthRatio = 99 / this.gameService.board.width;
       this.updateCellDimensions();
       this.updateBoardDimensions();
+      this.updateCellTheme();
+
       this.boardReady = true;
     });
 
@@ -73,14 +82,16 @@ export class BoardComponent implements OnInit {
       return 'gameOver';
 
     }
-
     if (cell.show) return 'cellShown';
     //If shift is held, toggling the flag if possible
     if ($event.shiftKey) {
       this.gameService.toggleFlag(cell);
       //Win can occure only here
-      if (this.gameService.won) this.gameService.winGame();
-      return 'gameWon';
+      if (this.gameService.won) {
+        this.gameService.winGame();
+        return 'gameWon';
+      }
+      return 'flagToggled';
     }
     //Protecting the player if the cell is flagged
     if (cell.flag) return 'flagFlagged';
@@ -94,7 +105,9 @@ export class BoardComponent implements OnInit {
 
 
     // if (cell.proximity == 0) {
-    this.gameService.expandZeroProximity(cell);
+    if (cell.proximity === 0) this.gameService.expandZeroProximity(cell);
+    else cell.showCell();
+
     return 'showingAndExpanding';
     // }
 

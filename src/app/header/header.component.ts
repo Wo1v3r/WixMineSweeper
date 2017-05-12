@@ -6,29 +6,49 @@ import { GameService } from '../services/game.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  width: number = 5;
-  mines: number = 5;
-  height: number = 5;
+  width: number = 50;
+  mines: number = 50;
+  height: number = 50;
   showMenu: boolean = false;
+  selectedDifficulty: string;
 
-  constructor(private gameService: GameService) {}
 
-  toggleNewGameMenu():void{
+  constructor(private gameService: GameService) { }
+
+  toggleNewGameMenu(): void {
+    //Resetting fields to current game settings
+    if (this.gameService.board) {
+      this.width = this.gameService.board.width;
+      this.height = this.gameService.board.height;
+      this.mines = this.gameService.board.height;
+    }
     this.showMenu = !this.showMenu;
   }
 
 
   newGame(): void {
-    if (this.width > 0 && this.width <= 300 && this.height > 0 && this.height <= 300 && this.mines < this.getMaxMines())
-          this.gameService.resetGame(this.width,this.height,this.mines);
+    if (this.width > 0 && this.width <= 300 && this.height > 0 && this.height <= 300 && this.mines <= this.getMaxMines()) {
+      this.gameService.resetGame(this.width, this.height, this.mines);
+      this.showMenu = false;
+    }
+    else{
+      alert("Invalid values entered");
+    }
   }
 
-  toggleSuperMan():void{
+  toggleSuperMan(): void {
     this.gameService.toggleSuperMan();
   }
 
-  getMaxMines():number{
-    return this.width*this.height;
+  getMaxMines(): number {
+    return this.width * this.height;
   }
 
+  getDifficulty(): string {
+    return this.gameService.difficulty;
+  }
+
+  setDifficulty(difficulty: string): void {
+    this.gameService.difficulty = difficulty;
+  }
 }

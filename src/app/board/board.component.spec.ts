@@ -40,6 +40,8 @@ describe('BoardComponent', () => {
       setTimeout(() => expect(component.boardReady).toBeTruthy(), 1000); // (If fails, need to try to set a longer timeout)
     }));
 
+
+
   it("Should show 'Game Over' if continuing to click when game is over.",
     inject([GameService], (gameService: GameService) => {
       gameService.loseGame();
@@ -89,6 +91,8 @@ describe('BoardComponent', () => {
         , new MouseEvent(''))).toMatch('showingAndExpanding');
       expect(gameService.steps).toEqual(6); //Steps should be incremented
     }));
+
+
 
   it("Should return whether game is over (Win or Lose)",
     inject([GameService], (gameService: GameService) => {

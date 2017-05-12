@@ -104,7 +104,7 @@ describe('GameService', () => {
 
       expect(service.mines).toEqual(4);
       expect(service.flagsUsed).toEqual(0);
-      expect(service.flags).toEqual(4 + 1);
+      expect(service.flags).toEqual(4);
       expect(service.minesFlagged).toEqual(0);
       expect(service.lost).toBeFalsy();
       expect(service.won).toBeFalsy();
