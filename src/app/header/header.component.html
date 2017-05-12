@@ -2,7 +2,7 @@
   <button color="accent" md-raised-button (click)="toggleNewGameMenu()">New Game</button>
 
   <span>
-      <img (click)="newGame()" id="bomb" src="../../assets/icons/019-bomb-2.svg">
+      <img (click)="newGame()" id="bomb" src="assets/019-bomb-2.svg">
 MineSweeper
     </span>
 
@@ -35,17 +35,19 @@ MineSweeper
 
     <figure class="item">
       <img class="difficulty" [ngClass]="{'active': getDifficulty()=='unicorn'}" (click)="setDifficulty('unicorn')" id="unicorn"
-        src="../../assets/icons/016-unicorn-1.svg">
+        src="assets/016-unicorn-1.svg">
       <figcaption class="caption">Easy <small>(+10%)</small></figcaption>
     </figure>
 
     <figure class="item">
-      <img class="difficulty" [ngClass]="{'active': getDifficulty()=='robot'}" (click)="setDifficulty('robot')" id="robot" src="../../assets/icons/009-robot-arm.svg">
+      <img class="difficulty" [ngClass]="{'active': getDifficulty()=='robot'}" (click)="setDifficulty('robot')" id="robot" 
+      src="assets/009-robot-arm.svg">
       <figcaption class="caption">Normal <small>(+5%)</small></figcaption>
     </figure>
 
     <figure class="item">
-      <img class="difficulty" [ngClass]="{'active': getDifficulty()=='cowboy'}" (click)="setDifficulty('cowboy')" id="cowboy" src="../../assets/icons/014-cowboy-1.svg">
+      <img class="difficulty" [ngClass]="{'active': getDifficulty()=='cowboy'}" (click)="setDifficulty('cowboy')" id="cowboy" 
+      src="assets/014-cowboy-1.svg">
       <figcaption class="caption">Hard <small>(+1%)</small></figcaption>
     </figure>
   </div>

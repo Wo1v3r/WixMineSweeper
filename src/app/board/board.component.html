@@ -34,8 +34,8 @@
 
       <div *ngIf="!cell.mine && !cell.flag &&  supermanMode || cell.show" [ngClass]="{'show':cell.show||supermanMode}" class="cellContent">{{cell.proximity || ""}}</div>
 
-      <img src="../assets/icons/007-maps-and-flags.svg" *ngIf="cell.flag" aria-hidden="true">
-      <img src="../assets/icons/018-bomb-3.svg" *ngIf="!cell.flag && cell.mine && (supermanMode  || gameOver())" aria-hidden="true">
+      <img src="assets/007-maps-and-flags.svg" *ngIf="cell.flag" aria-hidden="true">
+      <img src="assets/018-bomb-3.svg" *ngIf="!cell.flag && cell.mine && (supermanMode  || gameOver())" aria-hidden="true">
 
     </div>
 
