@@ -61,34 +61,37 @@ export class BoardComponent implements OnInit {
 
   }
 
-  cellClicked(cell: Cell, $event: MouseEvent): void {
+  //The return values on cellClicked are for Karma Test suite
+  
+  cellClicked(cell: Cell, $event: MouseEvent): string {
       //If game is over, nothing happens:
     if (this.gameOver()) {
       alert("The game is over, Please start a new game :)");
-      return;
+      return 'gameOver' ;
 
     }
 
     //If shift is held, toggling the flag if possible
     if ($event.shiftKey) {
       this.gameService.toggleFlag(cell);
-      //Win can accure only here
+      //Win can occure only here
       if (this.gameService.won) this.gameService.winGame();
-      return;
+      return 'gameWon';
     }
     //Protecting the player if the cell is flagged
-    if (cell.flag) return;
+    if (cell.flag) return 'flagFlagged';
 
     this.gameService.steps++;
 
     if (cell.mine) {
       this.gameService.loseGame();
-      return;
+      return 'gameLost';
     }
 
 
     // if (cell.proximity == 0) {
       this.gameService.expandZeroProximity(cell);
+      return 'showingAndExpanding';
     // }
 
     // cell.show = true;
@@ -97,7 +100,7 @@ export class BoardComponent implements OnInit {
   }
 
   gameOver(): boolean {
-    return this.gameService.lost;
+    return this.gameService.lost || this.gameService.won;
   }
 
 

@@ -102,12 +102,12 @@ export class GameService {
 
   winGame(): void {
     this.won = true;
-    alert("You won!");
+    alert("You won! :)");
   }
 
   loseGame(): void {
     this.lost = true;
-    alert("You Lost :(");
+    alert("You Lost... :(");
   }
 
   resetGame(width: number, height: number, mines: number): void {
