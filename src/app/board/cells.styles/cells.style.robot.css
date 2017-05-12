@@ -1,0 +1,56 @@
+
+.c0robot .show, #chip0robot{
+    background-color: #ddf5ff;
+    color:black;
+
+}
+
+.c1robot .show , #chip1robot{
+    background-color: #ffda35;
+
+}
+
+.c2robot .show , #chip2robot{
+    background-color: #ffb134;
+
+
+}
+
+.c3robot .show , #chip3robot{
+    background-color: #12d1ea;
+
+}
+
+.c4robot .show , #chip4robot{
+    background-color: #0e94ce;
+
+}
+
+.c5robot .show , #chip5robot{
+    background-color:#44679F;
+
+}
+
+.c6robot .show , #chip6robot{
+    background-color:#3B577D;
+
+}
+
+.c7robot .show , #chip7robot{
+    background-color: #02425e;
+
+}
+
+.c8 .show , #chip8robot{
+    background-color:#393E46;
+
+}
+
+#stepsrobot{
+    background-color: #ffb134;
+}
+
+#flagsrobot{
+    background-color: #0e94ce;
+}
+

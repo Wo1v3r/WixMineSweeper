@@ -1,0 +1,56 @@
+
+.c0unicorn .show, #chip0unicorn{
+    background-color: #fffcd3;
+    color:black;
+
+}
+
+.c1unicorn .show , #chip1unicorn{
+    background-color: #A8E6CF;
+
+}
+
+.c2unicorn .show , #chip2unicorn{
+    background-color: #DCEDC1;
+
+
+}
+
+.c3unicorn .show , #chip3unicorn{
+    background-color: #FFD3B6;
+
+}
+
+.c4unicorn .show , #chip4unicorn{
+    background-color: #FFAAA5;
+
+}
+
+.c5unicorn .show , #chip5unicorn{
+    background-color:#FF6F6F;
+
+}
+
+.c6unicorn .show , #chip6unicorn{
+    background-color:#BC4F4F;
+
+}
+
+.c7unicorn .show , #chip7unicorn{
+    background-color: #BD4682;
+
+}
+
+.c8 .show , #chip8unicorn{
+    background-color:#8C2057;
+
+}
+
+#stepsunicorn{
+    background-color: #A8E6CF;
+}
+
+#flagsunicorn{
+    background-color: #FFAAA5;
+}
+

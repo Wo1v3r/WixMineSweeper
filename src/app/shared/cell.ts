@@ -17,6 +17,6 @@ export class Cell {
 
     showCell():void{
         if (!this.flag && !this.mine) this.show=true;
-
+        
     }
 }

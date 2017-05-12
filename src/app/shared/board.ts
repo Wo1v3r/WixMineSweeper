@@ -19,9 +19,6 @@ export class Board {
             this.cells[i] = [];
             for (var j = 0; j < this.width; j++)
                 this.cells[i][j] = new Cell(false, i, j);
-
-
-
         }
         this.cellsFlattened = [];
         this.cellsFlattened = this.cellsFlattened.concat.apply([], this.cells);

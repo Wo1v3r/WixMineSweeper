@@ -1,0 +1,56 @@
+
+.c0cowboy .show, #chip0cowboy{
+    background-color: #c4ab9b;
+    color:black;
+
+}
+
+.c1cowboy .show , #chip1cowboy{
+    background-color: #F66E00;
+
+}
+
+.c2cowboy .show , #chip2cowboy{
+    background-color: #BC4F4F;
+
+
+}
+
+.c3cowboy .show , #chip3cowboy{
+    background-color: #FF4545;
+
+}
+
+.c4cowboy .show , #chip4cowboy{
+    background-color: #B32E37;
+
+}
+
+.c5cowboy .show , #chip5cowboy{
+    background-color:#6A5C55;
+
+}
+
+.c6cowboy .show , #chip6cowboy{
+    background-color:#4B4A5A;
+
+}
+
+.c7cowboy .show , #chip7cowboy{
+    background-color: #393E46;
+
+}
+
+.c8 .show , #chip8cowboy{
+    background-color:#222831;
+
+}
+
+#stepscowboy{
+    background-color: #bab9b2;
+}
+
+#flagscowboy{
+    background-color: orange;
+}
+
