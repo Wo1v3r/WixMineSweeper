@@ -4,7 +4,7 @@ A MineSweeper game for WIX home assignment:
 Made with Angular 4 using Angular CLI , Angular Material2 for design components.
 A Working example as of 13.5.2017 on: https://wo1v3r.github.io/WixMineSweeper/
 
-Using [ Angular CLI ]:
+Using [Angular CLI](https://github.com/angular/angular-cli):
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ### How to play:
@@ -24,7 +24,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 - Tests files are with <Name>.spec.ts suffix 
 - Tests are written for every Angular component, and for the two data-type classes
 
-Using [ Angular CLI ]
+Using [Angular CLI](https://github.com/angular/angular-cli):
 Run `npm install && ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
 
