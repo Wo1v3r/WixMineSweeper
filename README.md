@@ -9,7 +9,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 ### How to play:
 
-- Upon Loading a 50x50 board will appear with 50 mines on it
+- Upon Loading a 50x50 board will appear with 500 mines on it
 - Left click a cell to reveal it, its' proximity of mines shows as a number\color
 - You can start a new game by pressing the 'New Game' button and enter desired values
 - You can choose a difficulty (Unicorn, Robot , Cowboy ) on the creation menu, this will alter the number of flags you have at your disposal. (And also alter the board's theme!)
