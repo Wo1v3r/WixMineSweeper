@@ -6,12 +6,12 @@ import { GameService } from '../services/game.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  width: number = 50;
-  height: number = 50;
-  mines: number = 500;
+  width: number = 12;
+  height: number = 12;
+  mines: number = 30;
   showMenu: boolean = false;
   selectedDifficulty: string;
-  supermanActive: boolean;
+  supermanActive: boolean = false;
 
   constructor(private gameService: GameService) { }
 
@@ -25,17 +25,29 @@ export class HeaderComponent {
     this.showMenu = !this.showMenu;
   }
 
+  ngDoCheck() {
+    //Called every time that the input properties of a component or a directive are checked. Use it to extend change detection by performing a custom check.
+    //Add 'implements DoCheck' to the class.
+
+  }
   //New Game Creation logic
 
   newGame(): void {
+    this.showMenu = false;
+    this.supermanActive = false;
+
+    console.log("Start");
+
+
     if (this.width > 0 && this.width <= 300 && this.height > 0 && this.height <= 300 && this.mines <= this.getMaxMines()) {
+
       this.gameService.resetGame(this.width, this.height, this.mines);
-      this.showMenu = false;
-      this.supermanActive = false;
+      
     }
-    else {
+
+    else
       alert("Invalid values entered");
-    }
+
   }
 
   getMaxMines(): number {

@@ -26,28 +26,25 @@ export class BoardComponent implements OnInit {
   constructor(private gameService: GameService) { }
 
   ngOnInit() {
-    this.loadBoard(50, 50, 500);
+    this.loadBoard(12, 12, 30);
   }
 
   loadBoard(width: number, height: number, mines: number): void {
     this.boardReady = false;
     this.supermanMode = false;
 
-    let loadPromise = new Promise((resolve, reject) => {
-      this.gameService.createNewGame(width, height, mines, this);
-      resolve();
-    }).catch((err) => console.log(err));
 
-    loadPromise.then(() => {
-      this.cells = this.gameService.board.cellsFlattened;
-      this.widthRatio = 99 / this.gameService.board.width;
+    this.gameService.createNewGame(width, height, mines, this);
 
-      this.updateCellDimensions();
-      this.updateBoardDimensions();
-      this.updateCellTheme();
+    this.cells = this.gameService.board.cellsFlattened;
+    if (width <= 15) this.widthRatio = 50 / this.gameService.board.width;
+    else this.widthRatio = 99 / this.gameService.board.width;
 
-      this.boardReady = true;
-    });
+    this.updateCellDimensions();
+    this.updateBoardDimensions();
+    this.updateCellTheme();
+
+    this.boardReady = true;
 
   }
 
@@ -116,10 +113,14 @@ export class BoardComponent implements OnInit {
   //Display \ Themeing
 
   updateBoardDimensions(): void {
+
     this.currentBoardDimensions = {
       'grid-template-columns': 'repeat(' + this.gameService.board.width + ',' + this.widthRatio + 'vw)',
-      'grid-template-rows': 'repeat(' + this.gameService.board.height + ',' + this.widthRatio + 'vw)'
+      'grid-template-rows': 'repeat(' + this.gameService.board.height + ',' + this.widthRatio + 'vw)',
+      //If board is small, centering it using left margin for the board:
+      'margin-left': (() => { if (this.gameService.board.width <= 15) return '25vw'; return '0' }).apply(this)
     }
+
   }
 
   updateCellDimensions(): void {

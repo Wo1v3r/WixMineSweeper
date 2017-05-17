@@ -1,3 +1,7 @@
+#boardContainer{
+    overflow: scroll;
+}
+
 #chipsContainer{
     display:flex;
     margin-left:2%;
@@ -16,15 +20,14 @@
 
 }
 
-#boardContainer{
-    width:80%;
-    overflow: scroll;
-}
+
 
 .wrapper {
     display: grid;
     justify-items: center;
-    margin-top:50px;
+    margin-top:20px;
+    margin-bottom:20px;
+    
 }
 
 .cellContent{

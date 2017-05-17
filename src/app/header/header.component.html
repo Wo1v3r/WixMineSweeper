@@ -1,12 +1,12 @@
 <md-toolbar>
-  <button color="accent" md-raised-button (click)="toggleNewGameMenu()">New Game</button>
+  <button id="newGameButton" color="accent" md-raised-button (click)="toggleNewGameMenu()">New Game</button>
 
   <span>
       <img (click)="newGame()" id="bomb" src="assets/019-bomb-2.svg">
 MineSweeper
     </span>
 
-  <button color="accent" [ngClass]="{'supermanOn': supermanActive }" md-raised-button (click)="toggleSuperMan()">Superman Mode</button>
+  <button id="superManButton" color="accent" [ngClass]="{'supermanOn': supermanActive }" md-raised-button (click)="toggleSuperMan()">Superman Mode</button>
 
 </md-toolbar>
 

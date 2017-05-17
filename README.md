@@ -5,11 +5,11 @@ Made with Angular 4 using Angular CLI , Angular Material2 for design components.
 A Working example as of 13.5.2017 on: https://wo1v3r.github.io/WixMineSweeper/
 
 Using [Angular CLI](https://github.com/angular/angular-cli):
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ### How to play:
 
-- Upon Loading a 50x50 board will appear with 500 mines on it
+- Upon Loading a 50x50 board will appear with 50 mines on it
 - Left click a cell to reveal it, its' proximity of mines shows as a number\color
 - You can start a new game by pressing the 'New Game' button and enter desired values
 - You can choose a difficulty (Unicorn, Robot , Cowboy ) on the creation menu, this will alter the number of flags you have at your disposal. (And also alter the board's theme!)
@@ -25,7 +25,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 - Tests are written for every Angular component, and for the two data-type classes
 
 Using [Angular CLI](https://github.com/angular/angular-cli):
-Run `npm install && ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+-Run `npm install && ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
 
 ### Development Notes:
