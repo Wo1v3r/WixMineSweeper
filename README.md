@@ -1,4 +1,4 @@
-![alt text](http://imgur.com/DnMsdIV)
+![alt text](https://preview.ibb.co/c141fk/Selection_053.png)
 # Minesweeper
 A MineSweeper game for WIX home assignment:
 
