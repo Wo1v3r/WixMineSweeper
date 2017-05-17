@@ -33,19 +33,21 @@ export class BoardComponent implements OnInit {
     this.boardReady = false;
     this.supermanMode = false;
 
+    let loadPromise = new Promise((resolve, reject) => {
+      this.gameService.createNewGame(width, height, mines, this);
+      resolve();
+    }).catch((err) => console.log(err));
 
-    this.gameService.createNewGame(width, height, mines, this);
+    loadPromise.then(() => {
+      this.cells = this.gameService.board.cellsFlattened;
+      if (width <= 15) this.widthRatio = 50 / this.gameService.board.width;
+      else this.widthRatio = 99 / this.gameService.board.width;
+      this.updateCellDimensions();
+      this.updateBoardDimensions();
+      this.updateCellTheme();
 
-    this.cells = this.gameService.board.cellsFlattened;
-    if (width <= 15) this.widthRatio = 50 / this.gameService.board.width;
-    else this.widthRatio = 99 / this.gameService.board.width;
-
-    this.updateCellDimensions();
-    this.updateBoardDimensions();
-    this.updateCellTheme();
-
-    this.boardReady = true;
-
+      this.boardReady = true;
+    });
   }
 
   //Interaction //
