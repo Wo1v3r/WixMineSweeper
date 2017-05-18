@@ -21,7 +21,7 @@ Using [Angular CLI](https://github.com/angular/angular-cli):
 
 ## Running unit tests
 
-- Testing (Front End only) was done using Karma
+- Testing was done using Karma
 - Tests files are with <Name>.spec.ts suffix 
 - Tests are written for every Angular component, and for the two data-type classes
 
